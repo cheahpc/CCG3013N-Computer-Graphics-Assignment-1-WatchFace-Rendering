@@ -44,6 +44,9 @@ public:
 	// Battery shape
 	void drawBattery(GLfloat size, GLfloat thickness, GLfloat radius, GLfloat power);
 
+	// Taut Belt
+	void drawTautBelt(GLfloat circleRadius1, GLfloat circleRadius2, GLfloat distance);
+
 	// 2D transformation
 	void translate(GLfloat tX, GLfloat tY);
 	void rotate(GLfloat t, GLfloat pX, GLfloat pY);

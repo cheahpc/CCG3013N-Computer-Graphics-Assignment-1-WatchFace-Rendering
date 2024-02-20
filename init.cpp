@@ -39,7 +39,8 @@ Object hourCircle = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object hourPointer = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textHour = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
-// Layer 2
+// Group Seed
+Object seed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderMaster()
 {
@@ -186,7 +187,8 @@ void renderMaster()
     textStepUnit.scale(0.15);
     textStepUnit.drawText("Step", 3);
 #pragma endregion Group Step
-
+    glColor4f(COLOR_GREY);
+    seed.drawTautBelt(80, 20, 150);
     glFlush();  // Clear all GL executions.
     glFinish(); // Block until all GL executions are completed.
 }

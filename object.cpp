@@ -337,6 +337,28 @@ void Object::drawBattery(GLfloat size, GLfloat thickness, GLfloat radius, GLfloa
 	this->drawRect(width * 0.3, radius * 0.3);
 }
 
+// TODO implement taut belt
+void Object::drawTautBelt(GLfloat circleRadius1, GLfloat circleRadius2, GLfloat distance)
+{
+	GLfloat y1, y2;
+	y1 = this->y - (distance / 2);
+	y2 = this->y + (distance / 2);
+
+	// Draw the body
+	this->drawQuad(this->x - circleRadius1, y1,
+				   this->x + circleRadius1, y1,
+				   this->x + circleRadius2, y2,
+				   this->x - circleRadius2, y2);
+
+	// Draw the bottom circle
+	this->y = y1;
+	this->drawCircle(circleRadius1, 90, 270);
+
+	// Draw the top circle
+	this->y = y2;
+	this->drawCircle(circleRadius2, 270, 90);
+}
+
 // 2D transformation
 void Object::translate(GLfloat tX, GLfloat tY)
 {
