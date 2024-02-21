@@ -1,5 +1,5 @@
 // Define windows width and height
-#define WINDOWS_WIDTH 3420
+#define WINDOWS_WIDTH 3240
 #define WINDOWS_HEIGHT 2160
 #define WINDOWS_CENTER_X WINDOWS_WIDTH / 2
 #define WINDOWS_CENTER_Y WINDOWS_HEIGHT / 2

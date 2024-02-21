@@ -8,9 +8,23 @@ Object debug = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object backdrop = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderBackdrop()
 {
-    // Backdrop
-    glColor4f(COLOR_GREEN_LIGHT);
-    backdrop.drawCircle(WINDOWS_CENTER_X, 0, 360);
+    // Backdrop abstract
+    glColor4f(COLOR_GREEN_1);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.5, 100, -40, 158);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.1, 40, 170, 290);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 3.5, 800, 0, 360);
+
+    glColor4f(COLOR_RED_1);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.8, 150, 200, 45);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.4, 80, 50, 140);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 2.1, 20, 0, 360);
+    glColor4f(COLOR_GREEN_1);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.7, 80, 245, 0);
+
+    // Watch Glow
+    glColor4f(COLOR_WHITE_1);
+    for (int i = WATCH_BODY_RADIUS; i <= WATCH_BODY_RADIUS + 200; i += 40)
+        backdrop.drawCircle(i, 0, 360);
 }
 #pragma endregion Group Backdrop
 
@@ -85,8 +99,8 @@ void rederWatchStrap()
     watchStrap.y = WINDOWS_CENTER_Y + WINDOWS_HEIGHT / 2 - 50;
     for (int i = 0; i < 2; i++)
     {
-       
-            watchStrap.drawRoundedRectFill(STRAP_HOLE_WIDTH, STRAP_HOLE_HEIGHT, STRAP_HOLE_CORNER_RADIUS);
+
+        watchStrap.drawRoundedRectFill(STRAP_HOLE_WIDTH, STRAP_HOLE_HEIGHT, STRAP_HOLE_CORNER_RADIUS);
         watchStrap.translate(0, -150);
     }
 }
@@ -440,13 +454,33 @@ void renderWatchGlass()
 }
 #pragma endregion Group Watch Glass
 
+#pragma region Group Vignnette Filter
+// Group Vignnette Filter
+Object vignetteFilter = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+void renderVignetteFilter()
+{
+    // Vignette Filter
+    glColor4f(COLOR_BLACK_VIG);
+    int initialRadius = WINDOWS_WIDTH;
+    int initialWidth = 1600;
+    vignetteFilter.drawTorus(initialRadius, initialWidth, 0, 360);
+    for (int i = 0; i <= 220; i++)
+    {
+        vignetteFilter.drawTorus(initialRadius, initialWidth, 0, 360);
+        initialWidth -= 30;
+    }
+}
+#pragma endregion Group Vignnette Filter
+
 void renderMaster()
 {
     // Render code here.
-    rederWatchStrap(); // Watch Strap
-    renderWatchBody();  // Watch Body
-    renderBackground(); // Seconds and Outer Ring
-    renderWatermelon(); // Watermelon, background wallpaper
+    renderBackdrop();       // Backdrop
+    rederWatchStrap();      // Watch Strap
+    renderVignetteFilter(); // Vignette Filter
+    renderWatchBody();      // Watch Body
+    renderBackground();     // Seconds and Outer Ring
+    renderWatermelon();     // Watermelon, background wallpaper
 
     renderCenterPiece();  // Minutes and Analog Indicator
     renderHour();         // Hour
@@ -454,6 +488,7 @@ void renderMaster()
 
     renderWatchGlass(); // Watch Glass
 
+    // For debugging purpose
     // glColor4f(COLOR_BLACK);
     // debug.drawCircle(5, 0, 360);
 
@@ -464,10 +499,10 @@ void renderMaster()
 void init()
 {
     // Initialize the windows
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
-    glutInitWindowSize(WINDOWS_WIDTH, WINDOWS_HEIGHT);
-    glutInitWindowPosition(WINDOWS_INIT_X, WINDOWS_INIT_Y);
-    glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC");
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);                 // Set the display mode to single buffer and RGBA.
+    glutInitWindowSize(WINDOWS_WIDTH, WINDOWS_HEIGHT);            // Set the windows size.
+    glutInitWindowPosition(WINDOWS_INIT_X, WINDOWS_INIT_Y);       // Set the windows position.
+    glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC"); // Set the windows title.
 
     // Initialize the rendering context
     glClearColor(COLOR_GREEN_LIGHT);                   // Set the background color to white, any area not rendered will be white.
