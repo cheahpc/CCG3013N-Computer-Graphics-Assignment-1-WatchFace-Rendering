@@ -2,11 +2,16 @@
 #include "object.cpp"
 
 // Group Background
-
 #pragma region Group Background
 Object background = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object seconds = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object outerRing = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+Object watermelonShellA = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watermelonShellB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watermelonFleshA = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watermelonFleshB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watermelonSeed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderBackground()
 {
@@ -16,6 +21,23 @@ void renderBackground()
     seconds.drawTorus(SECONDS_RING_RADIUS, SECONDS_RING_THICKNESS, 0, 194);
     glColor4f(COLOR_GREEN);
     outerRing.drawTorus(OUTER_RING_RADIUS, OUTER_RING_THICKNESS, 0, 360);
+}
+
+void renderWatermelon()
+{
+    // Watermelon Shell
+    glColor4f(0.8f, 0.4f, 0.2f, 0.7f); // Set color to transparently green
+    watermelonShellA.drawCircle(100, 135, 315);
+    // watermelonShellB.drawCircle(100, 180, 360);
+
+    // Watermelon Flesh
+    // glColor4f(COLOR_GREEN);
+    // watermelonFleshA.drawCircle(90, 0, 180);
+    // watermelonFleshB.drawCircle(90, 180, 360);
+
+    // Watermelon Seed
+    // glColor4f(COLOR_BLACK);
+    // watermelonSeed.drawCircle(10, 0, 360);
 }
 
 #pragma endregion Group Background
@@ -221,15 +243,14 @@ Object seed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderMaster()
 {
     // Render code here.
+
     renderBackground();   // Seconds and Outer Ring
     renderCenterPiece();  // Minutes and Analog Indicator
     renderHour();         // Hour
     renderComplication(); // Complication (Date, Day, Heart, Battery, Step)
 
     // TODO draw watermelon a slice or two
-
-    glColor4f(COLOR_GREY);
-    seed.drawTautBelt(80, 20, 150);
+    renderWatermelon();
 
     glFlush();  // Clear all GL executions.
     glFinish(); // Block until all GL executions are completed.
@@ -238,14 +259,18 @@ void renderMaster()
 void init()
 {
     // Initialize the windows
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
     glutInitWindowSize(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     glutInitWindowPosition(WINDOWS_INIT_X, WINDOWS_INIT_Y);
-    glutCreateWindow(WINDOWS_TITTLE);
+    glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC");
 
     // Initialize the rendering context
-    glClearColor(COLOR_WHITE);    // Set the background color to white.
-    glMatrixMode(GL_PROJECTION);  // Set the matrix mode to projection.
-    Object::glEndReset();         // Reset the matrix.
-    glClear(GL_COLOR_BUFFER_BIT); // Load frame buffer.
+    glClearColor(COLOR_WHITE);                         // Set the background color to white, any area not rendered will be white.
+    glMatrixMode(GL_PROJECTION);                       // Set the matrix mode to projection.
+    glEnable(GL_LINE_SMOOTH);                          // Enables line anti-aliasing.
+    glEnable(GL_BLEND);                                // Enable for proper transparency render.
+    glDisable(GL_DEPTH_TEST);                          // Disable depth testing for overlap object. Use for transparency object involved.
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable transparency.
+    Object::glEndReset();                              // Reset the matrix.
+    glClear(GL_COLOR_BUFFER_BIT);                      // Load frame buffer.
 }

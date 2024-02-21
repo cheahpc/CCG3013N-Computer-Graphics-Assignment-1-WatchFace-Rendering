@@ -404,10 +404,7 @@ void Object::drawText(char *string, GLfloat size)
 	GLfloat y = this->y;
 	glPushMatrix();
 	glLineWidth(size);
-	glEnable(GL_LINE_SMOOTH);
-	glEnable(GL_BLEND);
-	glDepthMask(false);
-	// Get char count
+
 	int charCount = 0;
 	for (p = string; *p; p++)
 	{
@@ -419,6 +416,7 @@ void Object::drawText(char *string, GLfloat size)
 
 	this->glEndReset();
 }
+
 void Object::glEndReset()
 {
 	glEnd();
