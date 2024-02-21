@@ -1,9 +1,74 @@
 // Include custom headers
 #include "object.cpp"
 
-// Group Background
-
 Object debug = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+#pragma region Group Watch Body
+Object watchBody = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watchStrap = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watchButton = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+void renderWatchBody()
+{
+    // Watch Button 1
+    glColor4f(COLOR_GREY);
+    watchButton.drawCircle(WATCH_BODY_RADIUS + 30, 50, 80);
+    for (int i = WATCH_BODY_RADIUS; i <= WATCH_BODY_RADIUS + 25; i++)
+    {
+        // watchButton.drawCircle(i, 50, 80);
+    }
+    glColor4f(COLOR_RED_DARK);
+    watchButton.drawCircle(WATCH_BODY_RADIUS + 20, 50, 80);
+    // glColor4f(COLOR_BLACK_2);
+    // watchButton.drawCircle(WATCH_BODY_RADIUS + 15, 40, 80);
+    // watchButton.drawCircle(WATCH_BODY_RADIUS + 15, 40, 80);
+
+    // Watch button 2
+    glColor4f(COLOR_GREY);
+    watchButton.drawCircle(WATCH_BODY_RADIUS + 30, 110, 140);
+
+    // Watch Body
+    glColor4f(COLOR_WHITE);
+    watchBody.drawCircle(WATCH_BODY_RADIUS, 0, 360);
+
+    glColor4f(COLOR_BLACK_2);
+    for (int i = WATCH_BODY_RADIUS; i >= BACKGROUND_CIRCLE_RADIUS; i--)
+    {
+        watchBody.drawCircle(i, 0, 360);
+    }
+    glColor4f(COLOR_BLACK);
+
+    // After the watch body
+    watchBody.drawTorus(WATCH_BODY_RADIUS, 20, 0, 360);
+
+    // After the background circle
+    watchBody.drawTorus(BACKGROUND_CIRCLE_RADIUS, 25, 0, 360);
+
+    // Add body highlight
+    glColor4f(COLOR_WHITE);
+    watchBody.drawTorus(WATCH_BODY_RADIUS + 3, 2, 0, 360);
+}
+
+void rederWatchStrap()
+{
+    // Watch Strap
+    glColor4f(COLOR_GREEN_DARK);
+    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS, WINDOWS_HEIGHT, 10);
+
+    // Center Red
+    glColor4f(COLOR_RED_DARK);
+    watchStrap.translate(50, 0);
+    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS / 2, WINDOWS_HEIGHT, 10);
+
+    // Side
+    glColor4f(COLOR_WHITE);
+    watchStrap.translate(-170, 0);
+    watchStrap.drawRoundedRectFill(10, WINDOWS_HEIGHT, 0);
+
+    glColor4f(COLOR_RED);
+    watchStrap.translate(-30, 0);
+    watchStrap.drawRoundedRectFill(10, WINDOWS_HEIGHT, 0);
+}
+#pragma endregion Group Watch Body
 
 #pragma region Group Background
 Object background = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
@@ -20,11 +85,24 @@ Object watermelonSeedB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderBackground()
 {
     glColor4f(COLOR_GREEN_LIGHT);
-    background.drawCircle(BAKGROUND_CIRCLE_RADIUS, 0, 360);
+    background.drawCircle(BACKGROUND_CIRCLE_RADIUS, 0, 360);
+    // Seconds
     glColor4f(COLOR_RED);
     seconds.drawTorus(SECONDS_RING_RADIUS, SECONDS_RING_THICKNESS, 0, 194);
+
+    // Outer Ring
     glColor4f(COLOR_GREEN);
     outerRing.drawTorus(OUTER_RING_RADIUS, OUTER_RING_THICKNESS, 0, 360);
+
+    glColor4f(COLOR_WHITE_1);
+    int stepA = OUTER_RING_RADIUS - (OUTER_RING_THICKNESS / 2);
+    for (int i = OUTER_RING_RADIUS; i >= stepA; i--)
+    {
+        for (int j = 1; j <= (OUTER_RING_RADIUS - i + 1); j++)
+        {
+            outerRing.drawTorus(i, 1, 0, 360);
+        }
+    }
 }
 
 void renderWatermelon()
@@ -69,7 +147,7 @@ void renderWatermelon()
     watermelonFleshB.drawCircle(watermelonBRadius - shellThicknessB, 130 + watermelonBRotation, 200 + watermelonBRotation);
 
     // Watermelon Seed
-    glColor4f(COLOR_BLACK_1);
+    glColor4f(COLOR_BLACK_2);
     watermelonSeedA.translate(watermelonAOffsetX, watermelonAOffsetY);
     watermelonSeedA.translate(-30, -26);
     watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 45);
@@ -124,10 +202,15 @@ Object textMinute = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderCenterPiece()
 {
     // =============================================== Group Center Piece
+    // Core Red Circle
     glColor4f(COLOR_RED);
     coreCircle.drawCircle(CORE_CIRCLE_RADIUS, 0, 360);
+    // Minutes Circle
     glColor4f(COLOR_GREEN);
     minutes.drawCircle(MINUTES_CIRCLE_RADIUS, 0, 288);
+    glColor4f(COLOR_WHITE_2);
+    minutes.drawTorus(MINUTES_CIRCLE_RADIUS - 20, 5, 0, 288);
+
     // -- Analog Indicator
     glColor4f(COLOR_BLACK);
 
@@ -152,7 +235,7 @@ void renderCenterPiece()
             i - ANALOG_INDICATOR_WIDTH,
             i + ANALOG_INDICATOR_WIDTH);
     }
-
+    // Minute label
     glColor4f(COLOR_WHITE);
     textMinute.translate(-105, -45);
     textMinute.drawText("48", 10);
@@ -306,19 +389,48 @@ void renderComplication()
 }
 #pragma endregion Group == == == == Complication
 
-// Group Seed
-Object seed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+#pragma region Group Watch Glass
+// Group Watch Glass
+Object watchGlass = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderWatchGlass()
+{
+    // Watch Glass
+    glColor4f(COLOR_BLACK_1);
+    watchGlass.drawCircle(BACKGROUND_CIRCLE_RADIUS, 0, 360);
+
+    // Shaddow
+    int lowerBound = BACKGROUND_CIRCLE_RADIUS - 120;
+    int upperBound = BACKGROUND_CIRCLE_RADIUS;
+    int step = upperBound - lowerBound;
+    for (int i = upperBound; i >= lowerBound; i--)
+    {
+        for (int j = lowerBound; j <= i; j++)
+            watchGlass.drawTorus(i, 1, 0, 360);
+    }
+
+    // Reflect element on glass
+    glColor4f(COLOR_WHITE_2);
+    watchGlass.drawTorus(BACKGROUND_CIRCLE_RADIUS - 65, 85, 90, 160);
+    watchGlass.drawTorus(BACKGROUND_CIRCLE_RADIUS - 95, 45, 100, 180);
+    watchGlass.drawTorus(BACKGROUND_CIRCLE_RADIUS - 65, 60, 290, 338);
+    watchGlass.drawTorus(BACKGROUND_CIRCLE_RADIUS - 70, 25, 300, 350);
+}
+#pragma endregion Group Watch Glass
 
 void renderMaster()
 {
     // Render code here.
-
+    rederWatchStrap();  // Watch Strap
+    renderWatchBody();  // Watch Body
     renderBackground(); // Seconds and Outer Ring
     renderWatermelon(); // Watermelon, background wallpaper
 
     renderCenterPiece();  // Minutes and Analog Indicator
     renderHour();         // Hour
     renderComplication(); // Complication (Date, Day, Heart, Battery, Step)
+
+    renderWatchGlass(); // Watch Glass
 
     // glColor4f(COLOR_BLACK);
     // debug.drawCircle(5, 0, 360);
@@ -336,7 +448,7 @@ void init()
     glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC");
 
     // Initialize the rendering context
-    glClearColor(COLOR_WHITE);                         // Set the background color to white, any area not rendered will be white.
+    glClearColor(COLOR_GREEN_LIGHT);                         // Set the background color to white, any area not rendered will be white.
     glMatrixMode(GL_PROJECTION);                       // Set the matrix mode to projection.
     glEnable(GL_LINE_SMOOTH);                          // Enables line anti-aliasing.
     glEnable(GL_BLEND);                                // Enable for proper transparency render.
