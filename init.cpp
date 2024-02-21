@@ -3,6 +3,17 @@
 
 Object debug = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
+#pragma region Group Backdrop
+// Group Backdrop
+Object backdrop = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+void renderBackdrop()
+{
+    // Backdrop
+    glColor4f(COLOR_GREEN_LIGHT);
+    backdrop.drawCircle(WINDOWS_CENTER_X, 0, 360);
+}
+#pragma endregion Group Backdrop
+
 #pragma region Group Watch Body
 Object watchBody = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object watchStrap = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
@@ -67,6 +78,17 @@ void rederWatchStrap()
     glColor4f(COLOR_RED);
     watchStrap.translate(-30, 0);
     watchStrap.drawRoundedRectFill(10, WINDOWS_HEIGHT, 0);
+
+    // Holes
+    glColor4f(COLOR_BLACK);
+    watchStrap.x = WINDOWS_CENTER_X;
+    watchStrap.y = WINDOWS_CENTER_Y + WINDOWS_HEIGHT / 2 - 50;
+    for (int i = 0; i < 2; i++)
+    {
+       
+            watchStrap.drawRoundedRectFill(STRAP_HOLE_WIDTH, STRAP_HOLE_HEIGHT, STRAP_HOLE_CORNER_RADIUS);
+        watchStrap.translate(0, -150);
+    }
 }
 #pragma endregion Group Watch Body
 
@@ -421,7 +443,7 @@ void renderWatchGlass()
 void renderMaster()
 {
     // Render code here.
-    rederWatchStrap();  // Watch Strap
+    rederWatchStrap(); // Watch Strap
     renderWatchBody();  // Watch Body
     renderBackground(); // Seconds and Outer Ring
     renderWatermelon(); // Watermelon, background wallpaper
@@ -448,7 +470,7 @@ void init()
     glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC");
 
     // Initialize the rendering context
-    glClearColor(COLOR_GREEN_LIGHT);                         // Set the background color to white, any area not rendered will be white.
+    glClearColor(COLOR_GREEN_LIGHT);                   // Set the background color to white, any area not rendered will be white.
     glMatrixMode(GL_PROJECTION);                       // Set the matrix mode to projection.
     glEnable(GL_LINE_SMOOTH);                          // Enables line anti-aliasing.
     glEnable(GL_BLEND);                                // Enable for proper transparency render.
