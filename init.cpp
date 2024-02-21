@@ -1,14 +1,27 @@
-
-
 // Include custom headers
 #include "object.cpp"
 
 // Group Background
+
+#pragma region Group Background
 Object background = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object seconds = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object outerRing = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
-// Group Center Circles
+void renderBackground()
+{
+    glColor4f(COLOR_WHITE);
+    background.drawCircle(BAKGROUND_CIRCLE_RADIUS, 0, 360);
+    glColor4f(COLOR_RED);
+    seconds.drawTorus(SECONDS_RING_RADIUS, SECONDS_RING_THICKNESS, 0, 194);
+    glColor4f(COLOR_GREEN);
+    outerRing.drawTorus(OUTER_RING_RADIUS, OUTER_RING_THICKNESS, 0, 360);
+}
+
+#pragma endregion Group Background
+
+#pragma region Group Center Piece
+// Group Center Piece
 Object coreCircle = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object minutes = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object analogQuaterIndicator = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
@@ -16,45 +29,9 @@ Object analogIndicator = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textAMPM = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textMinute = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
-// Group Date and Day
-Object dayBox = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object dateBox = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object textDate = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object textDay = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
-// Group Heart
-Object iconHeart = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object textHeartRate = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
-// Group Battery
-Object iconBattery = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object textBattery = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
-// Group Step
-Object textStepCount = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object textStepUnit = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
-// Group Hour
-Object hourCircle = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object hourPointer = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object textHour = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
-// Group Seed
-Object seed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
-void renderMaster()
+void renderCenterPiece()
 {
-    // Render code here.
-    // Group Background
-    glColor4f(COLOR_WHITE);
-    background.drawCircle(BAKGROUND_CIRCLE_RADIUS, 0, 360);
-    glColor4f(COLOR_RED);
-    seconds.drawTorus(SECONDS_RING_RADIUS, SECONDS_RING_THICKNESS, 0, 194);
-    glColor4f(COLOR_GREEN);
-    outerRing.drawTorus(OUTER_RING_RADIUS, OUTER_RING_THICKNESS, 0, 360);
-
-#pragma region Group Center Circles
-    // =============================================== Group Center Circles
+    // =============================================== Group Center Piece
     glColor4f(COLOR_RED);
     coreCircle.drawCircle(CORE_CIRCLE_RADIUS, 0, 360);
     glColor4f(COLOR_GREEN);
@@ -91,10 +68,18 @@ void renderMaster()
     textAMPM.translate(-30, -100);
     textAMPM.scale(0.30);
     textAMPM.drawText("AM", 2);
-    // =============================================== Group Center Circles
-#pragma endregion Group Center Circles
+    // =============================================== Group Center Piece
+}
+#pragma endregion Group Center Piece
 
 #pragma region Group Hour
+// Group Hour
+Object hourCircle = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object hourPointer = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object textHour = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderHour()
+{
     // =============================================== Group Hour
     int current_Hour = 8;
 
@@ -125,10 +110,21 @@ void renderMaster()
     textHour.translate(-401, -239);
     textHour.scale(0.50);
     textHour.drawText("8", 10);
-// =============================================== Group Hour
+    // =============================================== Group Hour
+}
 #pragma endregion Group Hour
 
+#pragma region Group == == == == Complication
+
 #pragma region Group Date and Day
+// Group Date and Day
+Object dayBox = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object dateBox = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object textDate = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object textDay = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderDateDay()
+{
     // =============================================== Group Date and Day
     dayBox.translate(COMPLICATION_RING_RADIUS, -20);
     glColor4f(COLOR_RED);
@@ -146,11 +142,17 @@ void renderMaster()
     textDay.translate(COMPLICATION_RING_RADIUS - 25, -40);
     textDay.scale(0.15);
     textDay.drawText("Thu", 3);
-
     // =============================================== Group Date and Day
+}
 #pragma endregion Group Date and Day
 
 #pragma region Group Heart
+// Group Heart
+Object iconHeart = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object textHeartRate = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderHeart()
+{
     // =============================================== Group Heart
     glColor4f(COLOR_RED);
     iconHeart.translate(-90, COMPLICATION_RING_RADIUS);
@@ -161,9 +163,16 @@ void renderMaster()
     textHeartRate.scale(0.25);
     textHeartRate.drawText("76bpm", 4);
     // =============================================== Group Heart
+}
 #pragma endregion Group Heart
 
 #pragma region Group Battery
+// Group Battery
+Object iconBattery = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object textBattery = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderBattery()
+{
     // =============================================== Group Battery
     textBattery.translate(-10, -COMPLICATION_RING_RADIUS - 15);
     textBattery.scale(0.25);
@@ -174,9 +183,16 @@ void renderMaster()
     // iconBattery.scale(0.2);
     iconBattery.drawBattery(20, 2, 1, 60);
     // =============================================== Group Battery
+}
 #pragma endregion Group Battery
 
 #pragma region Group Step
+// Group Step
+Object textStepCount = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object textStepUnit = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderStep()
+{
     glColor4f(COLOR_GREY);
     textStepCount.translate(-COMPLICATION_RING_RADIUS - 50, 0);
     textStepCount.scale(0.35);
@@ -186,9 +202,35 @@ void renderMaster()
     textStepUnit.translate(-COMPLICATION_RING_RADIUS - 4, -28);
     textStepUnit.scale(0.15);
     textStepUnit.drawText("Step", 3);
+}
+
 #pragma endregion Group Step
+
+void renderComplication()
+{
+    renderDateDay();
+    renderHeart();
+    renderBattery();
+    renderStep();
+}
+#pragma endregion Group == == == == Complication
+
+// Group Seed
+Object seed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
+void renderMaster()
+{
+    // Render code here.
+    renderBackground();   // Seconds and Outer Ring
+    renderCenterPiece();  // Minutes and Analog Indicator
+    renderHour();         // Hour
+    renderComplication(); // Complication (Date, Day, Heart, Battery, Step)
+
+    // TODO draw watermelon a slice or two
+
     glColor4f(COLOR_GREY);
     seed.drawTautBelt(80, 20, 150);
+
     glFlush();  // Clear all GL executions.
     glFinish(); // Block until all GL executions are completed.
 }
@@ -202,7 +244,7 @@ void init()
     glutCreateWindow(WINDOWS_TITTLE);
 
     // Initialize the rendering context
-    // glClearColor(COLOR_WHITE);                       // Set the background color to white.
+    glClearColor(COLOR_WHITE);    // Set the background color to white.
     glMatrixMode(GL_PROJECTION);  // Set the matrix mode to projection.
     Object::glEndReset();         // Reset the matrix.
     glClear(GL_COLOR_BUFFER_BIT); // Load frame buffer.
