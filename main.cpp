@@ -10,6 +10,7 @@ int main()
 	// Render the scene
 	glutDisplayFunc(renderMaster);
 
+	// Finish the program
 	glutMainLoop();
 	system("PAUSE");
 	return 0;

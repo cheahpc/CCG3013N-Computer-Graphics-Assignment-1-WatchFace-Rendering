@@ -336,27 +336,49 @@ void Object::drawBattery(GLfloat size, GLfloat thickness, GLfloat radius, GLfloa
 	this->y = originalY + (height / 2) + (radius * 0.3) / 2;
 	this->drawRect(width * 0.3, radius * 0.3);
 }
-
-// TODO implement taut belt
-void Object::drawTautBelt(GLfloat circleRadius1, GLfloat circleRadius2, GLfloat distance)
+void Object::drawTautBelt(GLfloat circleRadius1, GLfloat circleRadius2, GLfloat h, GLfloat orientation)
 {
-	GLfloat y1, y2;
-	y1 = this->y - (distance / 2);
-	y2 = this->y + (distance / 2);
+	GLfloat originalX, originalY;
+	originalX = this->x;
+	originalY = this->y;
+
+	GLfloat dummyAngle = orientation;
+	while (dummyAngle >= 90)
+		dummyAngle -= 90;
+	GLfloat angle_a = (90 - dummyAngle);
+
+	// angle_a = angle_a * M_PI / 180.0;
+	angle_a = angle_a * M_PI / 180.0;
+
+	GLfloat x1, x2, x3, x4;
+	GLfloat y1, y2, y3, y4;
+	x1 = originalX - circleRadius1;
+	y1 = originalY;
+	x2 = originalX - circleRadius2;
+	y2 = originalY + h;
+	x3 = originalX + circleRadius2;
+	y3 = originalY + h;
+	x4 = originalX + circleRadius1;
+	y4 = originalY;
 
 	// Draw the body
-	this->drawQuad(this->x - circleRadius1, y1,
-				   this->x + circleRadius1, y1,
-				   this->x + circleRadius2, y2,
-				   this->x - circleRadius2, y2);
+	this->rotate(orientation, this->x, this->y);
+	this->drawQuad(x1, y1,
+				   x2, y2,
+				   x3, y3,
+				   x4, y4);
 
 	// Draw the bottom circle
-	this->y = y1;
-	this->drawCircle(circleRadius1, 90, 270);
+	this->drawCircle(circleRadius1, 90 + orientation, 270 + orientation);
 
 	// Draw the top circle
-	this->y = y2;
+	this->rotate(orientation, this->x, this->y);
+	this->y = originalY + h;
 	this->drawCircle(circleRadius2, 270, 90);
+
+	// Reset the position
+	this->x = originalX;
+	this->y = originalY;
 }
 
 // 2D transformation
@@ -405,11 +427,6 @@ void Object::drawText(char *string, GLfloat size)
 	glPushMatrix();
 	glLineWidth(size);
 
-	int charCount = 0;
-	for (p = string; *p; p++)
-	{
-		charCount++;
-	}
 	glTranslatef(x, y, 0);
 	for (p = string; *p; p++)
 		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, *p);

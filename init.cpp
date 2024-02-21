@@ -2,6 +2,9 @@
 #include "object.cpp"
 
 // Group Background
+
+Object debug = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+
 #pragma region Group Background
 Object background = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object seconds = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
@@ -11,11 +14,12 @@ Object watermelonShellA = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object watermelonShellB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object watermelonFleshA = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object watermelonFleshB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-Object watermelonSeed = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watermelonSeedA = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+Object watermelonSeedB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderBackground()
 {
-    glColor4f(COLOR_WHITE);
+    glColor4f(COLOR_GREEN_LIGHT);
     background.drawCircle(BAKGROUND_CIRCLE_RADIUS, 0, 360);
     glColor4f(COLOR_RED);
     seconds.drawTorus(SECONDS_RING_RADIUS, SECONDS_RING_THICKNESS, 0, 194);
@@ -26,18 +30,84 @@ void renderBackground()
 void renderWatermelon()
 {
     // Watermelon Shell
-    glColor4f(0.8f, 0.4f, 0.2f, 0.7f); // Set color to transparently green
-    watermelonShellA.drawCircle(100, 135, 315);
-    // watermelonShellB.drawCircle(100, 180, 360);
+    const int shellThicknessA = 15;
+    const int shellThicknessB = 40;
+
+    const int watermelonARadius = 140;
+    const int watermelonAOffsetX = -150;
+    const int watermelonAOffsetY = -150;
+    const int watermelonARotation = 50; // Default straight up
+    const int watermelonASeedOffsetX = -180;
+    const int watermelonASeedOffsetY = -180;
+
+    const int watermelonBRadius = 450;
+    const int watermelonBOffsetX = 10;
+    const int watermelonBOffsetY = 350;
+    const int watermelonBRotation = -10; // Default straight up
+    const int watermelonBSeedOffsetX = -180;
+    const int watermelonBSeedOffsetY = -180;
+
+    const int watermelonSeedABottomRadius = 5;
+    const int watermelonSeedATopRadius = 2;
+    const int watermelonSeedALength = 9;
+    const int watermelonSeedBBottomRadius = 8;
+    const int watermelonSeedBTopRadius = 3;
+    const int watermelonSeedBLength = 16;
+
+    glColor4f(COLOR_GREEN_1); // Set color to transparently green
+    watermelonShellA.translate(watermelonAOffsetX, watermelonAOffsetY);
+    watermelonShellA.drawTorus(watermelonARadius, shellThicknessA, 90 + watermelonARotation, 270 + watermelonARotation);
+    watermelonShellB.translate(watermelonBOffsetX, watermelonBOffsetY);
+    watermelonShellB.drawTorus(watermelonBRadius, shellThicknessB, 130 + watermelonBRotation, 200 + watermelonBRotation);
 
     // Watermelon Flesh
-    // glColor4f(COLOR_GREEN);
-    // watermelonFleshA.drawCircle(90, 0, 180);
-    // watermelonFleshB.drawCircle(90, 180, 360);
+    glColor4f(COLOR_RED_1);
+    watermelonFleshA.translate(watermelonAOffsetX, watermelonAOffsetY);
+    watermelonFleshA.drawCircle(watermelonARadius - shellThicknessA, 90 + watermelonARotation, 270 + watermelonARotation);
+
+    watermelonFleshB.translate(watermelonBOffsetX, watermelonBOffsetY);
+    watermelonFleshB.drawCircle(watermelonBRadius - shellThicknessB, 130 + watermelonBRotation, 200 + watermelonBRotation);
 
     // Watermelon Seed
-    // glColor4f(COLOR_BLACK);
-    // watermelonSeed.drawCircle(10, 0, 360);
+    glColor4f(COLOR_BLACK_1);
+    watermelonSeedA.translate(watermelonAOffsetX, watermelonAOffsetY);
+    watermelonSeedA.translate(-30, -26);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 45);
+    watermelonSeedA.translate(82, -54);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, -18);
+    watermelonSeedA.translate(-40, -34);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 15);
+    watermelonSeedA.translate(-28, 40);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 35);
+    watermelonSeedA.translate(-40, -12);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 28);
+    watermelonSeedA.translate(-38, 42);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 58);
+    watermelonSeedA.translate(20, 49);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 78);
+    watermelonSeedA.translate(-10, 40);
+    watermelonSeedA.drawTautBelt(watermelonSeedABottomRadius, watermelonSeedATopRadius, watermelonSeedALength, 95);
+
+    watermelonSeedB.translate(watermelonBOffsetX, watermelonBOffsetY);
+    watermelonSeedB.translate(26, -40);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -30);
+    watermelonSeedB.translate(62, -40);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -59);
+    watermelonSeedB.translate(-80, -40);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, 12);
+    watermelonSeedB.translate(66, -26);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -23);
+    watermelonSeedB.translate(106, -13);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -44);
+    watermelonSeedB.translate(-53, -48);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -14);
+
+    watermelonSeedB.translate(145, -4);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -74);
+    watermelonSeedB.translate(-56, -40);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -54);
+    watermelonSeedB.translate(-30, -63);
+    watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -34);
 }
 
 #pragma endregion Group Background
@@ -152,8 +222,8 @@ void renderDateDay()
     glColor4f(COLOR_RED);
     dayBox.drawRoundedRectFill(DAY_BOX_WIDTH, DAY_BOX_HEIGHT, DAY_BOX_CORNER_RADIUS);
 
-    dateBox.translate(COMPLICATION_RING_RADIUS, 20);
     glColor4f(COLOR_GREEN);
+    dateBox.translate(COMPLICATION_RING_RADIUS, 20);
     dateBox.drawRoundedRectFill(DATE_BOX_WIDTH, DATE_BOX_HEIGHT, DATE_BOX_CORNER_RADIUS);
 
     glColor4f(COLOR_WHITE);
@@ -225,7 +295,6 @@ void renderStep()
     textStepUnit.scale(0.15);
     textStepUnit.drawText("Step", 3);
 }
-
 #pragma endregion Group Step
 
 void renderComplication()
@@ -244,13 +313,15 @@ void renderMaster()
 {
     // Render code here.
 
-    renderBackground();   // Seconds and Outer Ring
+    renderBackground(); // Seconds and Outer Ring
+    renderWatermelon(); // Watermelon, background wallpaper
+
     renderCenterPiece();  // Minutes and Analog Indicator
     renderHour();         // Hour
     renderComplication(); // Complication (Date, Day, Heart, Battery, Step)
 
-    // TODO draw watermelon a slice or two
-    renderWatermelon();
+    // glColor4f(COLOR_BLACK);
+    // debug.drawCircle(5, 0, 360);
 
     glFlush();  // Clear all GL executions.
     glFinish(); // Block until all GL executions are completed.
