@@ -428,7 +428,6 @@ void renderComplication()
 #pragma region Group Watch Glass
 // Group Watch Glass
 Object watchGlass = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
-
 void renderWatchGlass()
 {
     // Watch Glass
