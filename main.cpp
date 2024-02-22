@@ -1,7 +1,5 @@
 #include "init.cpp"
 
-using namespace std;
-
 int main()
 {
 	// Initialize the windows
@@ -10,9 +8,9 @@ int main()
 	// Render the scene
 	glutDisplayFunc(renderMaster);
 
-	// Finish the program
+	// Start the main loop
 	glutMainLoop();
 
-	system("PAUSE");
+	// Exit the program
 	return 0;
 }

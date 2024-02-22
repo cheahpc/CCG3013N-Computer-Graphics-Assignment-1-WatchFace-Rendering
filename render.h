@@ -1,13 +1,13 @@
 #include "object.cpp"
 
+// Additional object for debvugging
 Object debug = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 #pragma region Group Backdrop
-// Group Backdrop
 Object backdrop = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderBackdrop()
 {
-    // Backdrop abstract
+    // Backdrop abstracts
     glColor4f(COLOR_GREEN_1);
     backdrop.drawTorus(WATCH_BODY_RADIUS * 1.5, 100, -40, 158);
     backdrop.drawTorus(WATCH_BODY_RADIUS * 1.1, 40, 170, 290);
@@ -20,7 +20,7 @@ void renderBackdrop()
     glColor4f(COLOR_GREEN_1);
     backdrop.drawTorus(WATCH_BODY_RADIUS * 1.7, 80, 245, 0);
 
-    // Watch Glow
+    // Add Watch Glow from the body
     glColor4f(COLOR_WHITE_1);
     for (int i = WATCH_BODY_RADIUS; i <= WATCH_BODY_RADIUS + 200; i += 40)
         backdrop.drawCircle(i, 0, 360);
@@ -36,10 +36,6 @@ void renderWatchBody()
     // Watch Button 1
     glColor4f(COLOR_GREY);
     watchButton.drawCircle(WATCH_BODY_RADIUS + 30, 50, 80);
-    for (int i = WATCH_BODY_RADIUS; i <= WATCH_BODY_RADIUS + 25; i++)
-    {
-        // watchButton.drawCircle(i, 50, 80);
-    }
     glColor4f(COLOR_RED_DARK);
     watchButton.drawCircle(WATCH_BODY_RADIUS + 20, 50, 80);
     // glColor4f(COLOR_BLACK_2);
@@ -58,18 +54,19 @@ void renderWatchBody()
     for (int i = WATCH_BODY_RADIUS; i >= BACKGROUND_CIRCLE_RADIUS; i--)
     {
         watchBody.drawCircle(i, 0, 360);
+        watchBody.drawCircle(i, 0, 360);
     }
     glColor4f(COLOR_BLACK);
-
-    // After the watch body
-    watchBody.drawTorus(WATCH_BODY_RADIUS, 20, 0, 360);
-
-    // After the background circle
-    watchBody.drawTorus(BACKGROUND_CIRCLE_RADIUS, 25, 0, 360);
+    watchBody.drawTorus(BACKGROUND_CIRCLE_RADIUS, 25, 0, 360); // Base layer for the watch body inner circle
+    watchBody.drawTorus(WATCH_BODY_RADIUS, 20, 0, 360);        // Over layer for the watch body outline
 
     // Add body highlight
+    glColor4f(COLOR_WHITE_3);
+    watchBody.drawTorus(WATCH_BODY_RADIUS, 8, 0, 360);
+    watchBody.drawTorus(WATCH_BODY_RADIUS + 3, 3, 0, 360);
     glColor4f(COLOR_WHITE);
-    watchBody.drawTorus(WATCH_BODY_RADIUS + 3, 2, 0, 360);
+    watchBody.drawTorus(WATCH_BODY_RADIUS + 3, 2, 90, 180);
+    watchBody.drawTorus(WATCH_BODY_RADIUS + 3, 2, 280, 340);
 }
 
 void rederWatchStrap()
@@ -93,12 +90,11 @@ void rederWatchStrap()
     watchStrap.drawRoundedRectFill(10, WINDOWS_HEIGHT, 0);
 
     // Holes
+    watchStrap.x = WINDOWS_CENTER_X;                           // Reset x
+    watchStrap.y = WINDOWS_CENTER_Y + WINDOWS_HEIGHT / 2 - 50; // Reset y
     glColor4f(COLOR_BLACK);
-    watchStrap.x = WINDOWS_CENTER_X;
-    watchStrap.y = WINDOWS_CENTER_Y + WINDOWS_HEIGHT / 2 - 50;
     for (int i = 0; i < 2; i++)
     {
-
         watchStrap.drawRoundedRectFill(STRAP_HOLE_WIDTH, STRAP_HOLE_HEIGHT, STRAP_HOLE_CORNER_RADIUS);
         watchStrap.translate(0, -150);
     }
@@ -119,23 +115,24 @@ Object watermelonSeedB = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderBackground()
 {
+    // Watchface Background
     glColor4f(COLOR_GREEN_LIGHT);
     background.drawCircle(BACKGROUND_CIRCLE_RADIUS, 0, 360);
-    // Seconds
+
+    // Seconds ring
     glColor4f(COLOR_RED);
     seconds.drawTorus(SECONDS_RING_RADIUS, SECONDS_RING_THICKNESS, 0, 194);
 
-    // Outer Ring
+    // Decorative green outer ring
     glColor4f(COLOR_GREEN);
     outerRing.drawTorus(OUTER_RING_RADIUS, OUTER_RING_THICKNESS, 0, 360);
 
     glColor4f(COLOR_WHITE_1);
-    int stepA = OUTER_RING_RADIUS - (OUTER_RING_THICKNESS / 2);
-    for (int i = OUTER_RING_RADIUS; i >= stepA; i--)
+    for (int i = OUTER_RING_RADIUS; i >= OUTER_RING_RADIUS - (OUTER_RING_THICKNESS / 2); i--)
     {
         for (int j = 1; j <= (OUTER_RING_RADIUS - i + 1); j++)
         {
-            outerRing.drawTorus(i, 1, 0, 360);
+            outerRing.drawTorus(i, 1, 0, 360); // Adds a gradient effect to the outer ring
         }
     }
 }
@@ -143,23 +140,23 @@ void renderBackground()
 void renderWatermelon()
 {
     // Watermelon Shell
+    // Define the watermelon shell
     const int shellThicknessA = 15;
     const int shellThicknessB = 40;
-
+    // Define the watermelon A flesh
     const int watermelonARadius = 140;
     const int watermelonAOffsetX = -150;
     const int watermelonAOffsetY = -150;
-    const int watermelonARotation = 50; // Default straight up
+    const int watermelonARotation = 50;
     const int watermelonASeedOffsetX = -180;
     const int watermelonASeedOffsetY = -180;
-
     const int watermelonBRadius = 450;
     const int watermelonBOffsetX = 10;
     const int watermelonBOffsetY = 350;
-    const int watermelonBRotation = -10; // Default straight up
+    const int watermelonBRotation = -10;
     const int watermelonBSeedOffsetX = -180;
     const int watermelonBSeedOffsetY = -180;
-
+    // Define the watermelon seeds
     const int watermelonSeedABottomRadius = 5;
     const int watermelonSeedATopRadius = 2;
     const int watermelonSeedALength = 9;
@@ -167,9 +164,11 @@ void renderWatermelon()
     const int watermelonSeedBTopRadius = 3;
     const int watermelonSeedBLength = 16;
 
+    // Watermelon Shell
     glColor4f(COLOR_GREEN_1); // Set color to transparently green
     watermelonShellA.translate(watermelonAOffsetX, watermelonAOffsetY);
     watermelonShellA.drawTorus(watermelonARadius, shellThicknessA, 90 + watermelonARotation, 270 + watermelonARotation);
+
     watermelonShellB.translate(watermelonBOffsetX, watermelonBOffsetY);
     watermelonShellB.drawTorus(watermelonBRadius, shellThicknessB, 130 + watermelonBRotation, 200 + watermelonBRotation);
 
@@ -214,7 +213,6 @@ void renderWatermelon()
     watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -44);
     watermelonSeedB.translate(-53, -48);
     watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -14);
-
     watermelonSeedB.translate(145, -4);
     watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -74);
     watermelonSeedB.translate(-56, -40);
@@ -222,11 +220,9 @@ void renderWatermelon()
     watermelonSeedB.translate(-30, -63);
     watermelonSeedB.drawTautBelt(watermelonSeedBBottomRadius, watermelonSeedBTopRadius, watermelonSeedBLength, -34);
 }
-
 #pragma endregion Group Background
 
 #pragma region Group Center Piece
-// Group Center Piece
 Object coreCircle = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object minutes = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object analogQuaterIndicator = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
@@ -236,11 +232,10 @@ Object textMinute = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderCenterPiece()
 {
-    // =============================================== Group Center Piece
-    // Core Red Circle
+    // Core red circle
     glColor4f(COLOR_RED);
     coreCircle.drawCircle(CORE_CIRCLE_RADIUS, 0, 360);
-    // Minutes Circle
+    // Minutes circle
     glColor4f(COLOR_GREEN);
     minutes.drawCircle(MINUTES_CIRCLE_RADIUS, 0, 288);
     glColor4f(COLOR_WHITE_2);
@@ -248,7 +243,7 @@ void renderCenterPiece()
 
     // -- Analog Indicator
     glColor4f(COLOR_BLACK);
-
+    // Draw the quater indicator
     for (int i = 90; i <= 360; i += 90)
     {
         analogQuaterIndicator.drawTorus(
@@ -257,7 +252,7 @@ void renderCenterPiece()
             i - ANALOG_INDICATOR_WIDTH,
             i + ANALOG_INDICATOR_WIDTH);
     }
-
+    // Draw the minute indicator non quater
     for (int i = 30; i <= 330; i += 30)
     {
         if (i == 90 || i == 180 || i == 270 || i == 360)
@@ -270,27 +265,26 @@ void renderCenterPiece()
             i - ANALOG_INDICATOR_WIDTH,
             i + ANALOG_INDICATOR_WIDTH);
     }
-    // Minute label
+
+    // Minute text
     glColor4f(COLOR_WHITE);
     textMinute.translate(-105, -45);
     textMinute.drawText("48", 10);
 
+    // AM PM text
     textAMPM.translate(-30, -100);
     textAMPM.scale(0.30);
     textAMPM.drawText("AM", 2);
-    // =============================================== Group Center Piece
 }
 #pragma endregion Group Center Piece
 
 #pragma region Group Hour
-// Group Hour
 Object hourCircle = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object hourPointer = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textHour = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderHour()
 {
-    // =============================================== Group Hour
     int current_Hour = 8;
 
     // Hour pointer
@@ -320,14 +314,12 @@ void renderHour()
     textHour.translate(-401, -239);
     textHour.scale(0.50);
     textHour.drawText("8", 10);
-    // =============================================== Group Hour
 }
 #pragma endregion Group Hour
 
 #pragma region Group == == == == Complication
 
 #pragma region Group Date and Day
-// Group Date and Day
 Object dayBox = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object dateBox = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textDate = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
@@ -335,79 +327,79 @@ Object textDay = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderDateDay()
 {
-    // =============================================== Group Date and Day
+    // Draw day box
     dayBox.translate(COMPLICATION_RING_RADIUS, -20);
     glColor4f(COLOR_RED);
     dayBox.drawRoundedRectFill(DAY_BOX_WIDTH, DAY_BOX_HEIGHT, DAY_BOX_CORNER_RADIUS);
 
+    // Draw date box
     glColor4f(COLOR_GREEN);
     dateBox.translate(COMPLICATION_RING_RADIUS, 20);
     dateBox.drawRoundedRectFill(DATE_BOX_WIDTH, DATE_BOX_HEIGHT, DATE_BOX_CORNER_RADIUS);
 
+    // Draw date text
     glColor4f(COLOR_WHITE);
     textDate.translate(COMPLICATION_RING_RADIUS - 80, 10);
     textDate.scale(0.25);
     textDate.drawText("12|Feb", 4);
 
+    // Draw day text
     textDay.translate(COMPLICATION_RING_RADIUS - 25, -40);
     textDay.scale(0.15);
     textDay.drawText("Thu", 3);
-    // =============================================== Group Date and Day
 }
 #pragma endregion Group Date and Day
 
 #pragma region Group Heart
-// Group Heart
 Object iconHeart = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textHeartRate = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderHeart()
 {
-    // =============================================== Group Heart
+    // The heart rate icon
     glColor4f(COLOR_RED);
     iconHeart.translate(-90, COMPLICATION_RING_RADIUS);
     iconHeart.drawHeart(20);
 
+    // Haert rate text
     glColor4f(COLOR_GREY);
     textHeartRate.translate(-50, COMPLICATION_RING_RADIUS - 10);
     textHeartRate.scale(0.25);
     textHeartRate.drawText("76bpm", 4);
-    // =============================================== Group Heart
 }
 #pragma endregion Group Heart
 
 #pragma region Group Battery
-// Group Battery
 Object iconBattery = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textBattery = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderBattery()
 {
-    // =============================================== Group Battery
+    // Battery text
     textBattery.translate(-10, -COMPLICATION_RING_RADIUS - 15);
     textBattery.scale(0.25);
     textBattery.drawText("60%", 4);
 
+    // Battery icon
     glColor4f(COLOR_BLACK);
     iconBattery.translate(-35, -COMPLICATION_RING_RADIUS);
-    // iconBattery.scale(0.2);
     iconBattery.drawBattery(20, 2, 1, 60);
-    // =============================================== Group Battery
 }
 #pragma endregion Group Battery
 
 #pragma region Group Step
-// Group Step
 Object textStepCount = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 Object textStepUnit = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 
 void renderStep()
 {
+    // Step count text
     glColor4f(COLOR_GREY);
     textStepCount.translate(-COMPLICATION_RING_RADIUS - 50, 0);
     textStepCount.scale(0.35);
     textStepCount.drawText("4896", 6);
 
+    // Step unit text
     glColor4f(COLOR_RED);
     textStepUnit.translate(-COMPLICATION_RING_RADIUS - 4, -28);
     textStepUnit.scale(0.15);
@@ -415,6 +407,7 @@ void renderStep()
 }
 #pragma endregion Group Step
 
+// Master function to render the complication
 void renderComplication()
 {
     renderDateDay();
@@ -425,15 +418,14 @@ void renderComplication()
 #pragma endregion Group == == == == Complication
 
 #pragma region Group Watch Glass
-// Group Watch Glass
 Object watchGlass = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderWatchGlass()
 {
-    // Watch Glass
+    // Watch glass
     glColor4f(COLOR_BLACK_1);
     watchGlass.drawCircle(BACKGROUND_CIRCLE_RADIUS, 0, 360);
 
-    // Shaddow
+    // Watch glass vignette
     int lowerBound = BACKGROUND_CIRCLE_RADIUS - 120;
     int upperBound = BACKGROUND_CIRCLE_RADIUS;
     int step = upperBound - lowerBound;
@@ -453,7 +445,6 @@ void renderWatchGlass()
 #pragma endregion Group Watch Glass
 
 #pragma region Group Vignnette Filter
-// Group Vignnette Filter
 Object vignetteFilter = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderVignetteFilter()
 {

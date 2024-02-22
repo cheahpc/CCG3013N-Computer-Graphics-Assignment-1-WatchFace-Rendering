@@ -1,11 +1,12 @@
-// Include custom headers
+// Include rendering functions
 #include "render.h"
 
 void renderMaster()
 {
     // Render code here.
-    renderBackdrop();       // Backdrop
-    rederWatchStrap();      // Watch Strap
+    renderBackdrop();  // Backdrop
+    rederWatchStrap(); // Watch Strap
+
     renderVignetteFilter(); // Vignette Filter
     renderWatchBody();      // Watch Body
     renderBackground();     // Seconds and Outer Ring
@@ -28,11 +29,11 @@ void renderMaster()
 void init()
 {
     // Initialize the windows
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);                 // Set the display mode to single buffer and RGBA.
-    glutInitWindowSize(WINDOWS_WIDTH, WINDOWS_HEIGHT);            // Set the windows size.
-    glutInitWindowPosition(WINDOWS_INIT_X, WINDOWS_INIT_Y);       // Set the windows position.
-    glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC"); // Set the windows title.
-    glutFullScreen();                                             // Set the windows to full screen.
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);                   // Set the display mode to single buffer and RGBA.
+    glutInitWindowSize(WINDOWS_WIDTH, WINDOWS_HEIGHT);              // Set the windows size.
+    glutInitWindowPosition(WINDOWS_CENTER_Y, WINDOWS_CENTER_Y);     // Set the windows position.
+    glutCreateWindow("Watermelon-ish Watch Face v1.0 by @cheahPC"); // Set the windows title.
+    glutFullScreen();                                               // Set the windows to full screen.
 
     // Initialize the rendering context
     glClearColor(COLOR_GREEN_LIGHT);                   // Set the background color to white, any area not rendered will be white.
