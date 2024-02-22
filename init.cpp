@@ -4,13 +4,13 @@
 void renderMaster()
 {
     // Render code here.
-    renderBackdrop();  // Backdrop
-    rederWatchStrap(); // Watch Strap
-
+    renderBackdrop();       // Backdrop
+    rederWatchStrap();      // Watch Strap
     renderVignetteFilter(); // Vignette Filter
-    renderWatchBody();      // Watch Body
-    renderBackground();     // Seconds and Outer Ring
-    renderWatermelon();     // Watermelon, background wallpaper
+
+    renderWatchBody();  // Watch Body
+    renderBackground(); // Seconds and Outer Ring
+    renderWatermelon(); // Watermelon, background wallpaper
 
     renderCenterPiece();  // Minutes and Analog Indicator
     renderHour();         // Hour

@@ -7,7 +7,7 @@
 #define COLOR_WHITE_2 1.0f, 1.0f, 1.0f, 0.15f
 #define COLOR_WHITE_3 1.0f, 1.0f, 1.0f, 0.4f
 #define COLOR_BLACK_1 0.0f, 0.0f, 0.0f, 0.01f
-#define COLOR_BLACK_VIG 0.0f, 0.0f, 0.0f, 0.025f
+#define COLOR_BLACK_VIG 0.0f, 0.0f, 0.0f, 0.045f
 #define COLOR_BLACK_2 0.0f, 0.0f, 0.0f, 0.05f
 #define COLOR_BLACK_3 0.0f, 0.0f, 0.0f, 0.50f
 
