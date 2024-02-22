@@ -5,7 +5,7 @@ void renderMaster()
 {
     // Render code here.
     renderBackdrop();       // Backdrop
-    rederWatchStrap();      // Watch Strap
+    renderWatchStrap();      // Watch Strap
     renderVignetteFilter(); // Vignette Filter
 
     renderWatchBody();  // Watch Body
