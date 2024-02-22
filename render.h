@@ -20,6 +20,11 @@ void renderBackdrop()
     glColor4f(COLOR_GREEN_1);
     backdrop.drawTorus(WATCH_BODY_RADIUS * 1.7, 80, 245, 0);
 
+    glColor4f(COLOR_ORANGE_1);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.9, 120, 25, 105);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 1.3, 120, 200, 260);
+    backdrop.drawTorus(WATCH_BODY_RADIUS * 2.4, 75, 145, 290);
+
     // Add Watch Glow from the body
     glColor4f(COLOR_WHITE_1);
     for (int i = WATCH_BODY_RADIUS; i <= WATCH_BODY_RADIUS + 200; i += 40)
@@ -38,9 +43,6 @@ void renderWatchBody()
     watchButton.drawCircle(WATCH_BODY_RADIUS + 30, 50, 80);
     glColor4f(COLOR_RED_DARK);
     watchButton.drawCircle(WATCH_BODY_RADIUS + 20, 50, 80);
-    // glColor4f(COLOR_BLACK_2);
-    // watchButton.drawCircle(WATCH_BODY_RADIUS + 15, 40, 80);
-    // watchButton.drawCircle(WATCH_BODY_RADIUS + 15, 40, 80);
 
     // Watch button 2
     glColor4f(COLOR_GREY);
@@ -69,25 +71,43 @@ void renderWatchBody()
     watchBody.drawTorus(WATCH_BODY_RADIUS + 3, 2, 280, 340);
 }
 
-void rederWatchStrap()
+void renderWatchStrap()
 {
     // Watch Strap
     glColor4f(COLOR_GREEN_DARK);
-    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS, WINDOWS_HEIGHT, 10);
+    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS + 20, WINDOWS_HEIGHT, 0);
+    glColor4f(COLOR_GREEN);
+    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS, WINDOWS_HEIGHT, 0);
+    glColor4f(COLOR_GREEN_DARK_1);
+    for (int i = BACKGROUND_CIRCLE_RADIUS; i >= BACKGROUND_CIRCLE_RADIUS - 150; i -= 15)
+        watchStrap.drawRoundedRectFill(i, WINDOWS_HEIGHT, 0);
 
     // Center Red
     glColor4f(COLOR_RED_DARK);
     watchStrap.translate(50, 0);
-    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS / 2, WINDOWS_HEIGHT, 10);
+    watchStrap.drawRoundedRectFill(BACKGROUND_CIRCLE_RADIUS / 2, WINDOWS_HEIGHT, 0);
 
-    // Side
-    glColor4f(COLOR_WHITE);
-    watchStrap.translate(-170, 0);
-    watchStrap.drawRoundedRectFill(10, WINDOWS_HEIGHT, 0);
+    glColor4f(COLOR_RED_1);
+    for (int i = BACKGROUND_CIRCLE_RADIUS / 2; i > (BACKGROUND_CIRCLE_RADIUS / 2) - 100; i -= 10)
+        watchStrap.drawRoundedRectFill(i, WINDOWS_HEIGHT, 0);
 
+    // Side left
     glColor4f(COLOR_RED);
-    watchStrap.translate(-30, 0);
-    watchStrap.drawRoundedRectFill(10, WINDOWS_HEIGHT, 0);
+    watchStrap.translate(-170, 0);
+    watchStrap.drawRoundedRectFill(15, WINDOWS_HEIGHT, 0);
+
+    glColor4f(COLOR_WHITE);
+    watchStrap.translate(-50, 0);
+    watchStrap.drawRoundedRectFill(15, WINDOWS_HEIGHT, 0);
+
+    // Side Right
+    watchStrap.translate(280, 0);
+    glColor4f(COLOR_ORANGE_1);
+    for (int i = 15; i > 5; i--)
+        watchStrap.drawRoundedRectFill(i, WINDOWS_HEIGHT, 0);
+    glColor4f(COLOR_ORANGE_1);
+    for (int i = 5; i >= 0; i--)
+        watchStrap.drawRoundedRectFill(i, WINDOWS_HEIGHT, 0);
 
     // Holes
     watchStrap.x = WINDOWS_CENTER_X;                           // Reset x
@@ -235,14 +255,25 @@ void renderCenterPiece()
     // Core red circle
     glColor4f(COLOR_RED);
     coreCircle.drawCircle(CORE_CIRCLE_RADIUS, 0, 360);
+    glColor4f(COLOR_YELLOW_1);
+    for (int i = 90; i >= 50; i -= 10)
+        coreCircle.drawCircle(CORE_CIRCLE_RADIUS - i, 0, 360);
+    glColor4f(COLOR_ORANGE_1);
+    for (int i = 40; i >= 10; i -= 10)
+        coreCircle.drawCircle(CORE_CIRCLE_RADIUS - i, 0, 360);
+
     // Minutes circle
-    glColor4f(COLOR_GREEN);
+    glColor4f(COLOR_GREEN_DARK);
     minutes.drawCircle(MINUTES_CIRCLE_RADIUS, 0, 288);
-    glColor4f(COLOR_WHITE_2);
-    minutes.drawTorus(MINUTES_CIRCLE_RADIUS - 20, 5, 0, 288);
+    glColor4f(COLOR_GREEN_1);
+    for (int i = 10; i <= 70; i += 10)
+        minutes.drawCircle(MINUTES_CIRCLE_RADIUS - i, 0, 288);
+    glColor4f(COLOR_WHITE_1);
+    for (int i = 13; i >= 6; i--)
+        minutes.drawTorus(MINUTES_CIRCLE_RADIUS - 20, i, 0, 288);
 
     // -- Analog Indicator
-    glColor4f(COLOR_BLACK);
+    glColor4f(COLOR_WHITE);
     // Draw the quater indicator
     for (int i = 90; i <= 360; i += 90)
     {
@@ -267,14 +298,20 @@ void renderCenterPiece()
     }
 
     // Minute text
-    glColor4f(COLOR_WHITE);
     textMinute.translate(-105, -45);
+    glColor4f(COLOR_GREEN_DARK);
     textMinute.drawText("48", 10);
+    glColor4f(COLOR_WHITE);
+    textMinute.drawText("48", 8);
 
     // AM PM text
     textAMPM.translate(-30, -100);
     textAMPM.scale(0.30);
-    textAMPM.drawText("AM", 2);
+    glColor4f(COLOR_GREEN_DARK);
+    textAMPM.drawText("AM", 5);
+    textAMPM.scale(0.30);
+    glColor4f(COLOR_WHITE);
+    textAMPM.drawText("AM", 3);
 }
 #pragma endregion Group Center Piece
 
@@ -288,7 +325,7 @@ void renderHour()
     int current_Hour = 8;
 
     // Hour pointer
-    glColor4f(COLOR_RED);
+    glColor4f(COLOR_ORANGE);
     hourPointer.drawTorus(OUTER_RING_RADIUS * .90, 15, 240, 264);
 
     // Hour circle
@@ -300,20 +337,35 @@ void renderHour()
         if (i == current_Hour * 30)
         {
             glColor4f(COLOR_RED);
-            hourCircle.drawCircle(50, 0, 360);
+            hourCircle.drawCircle(60, 0, 360);
+            // glColor4f(COLOR_ORANGE_1);
+            // for (int j = 0; j <= 20; j+=5)
+            // {
+            //     hourCircle.rotate(i, WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+            //     hourCircle.drawCircle(60 - j, 0, 360);
+            // }
+            // glColor4f(COLOR_YELLOW_1);
+            // for (int j = 0; j <= 20; j += 5)
+            // {
+            //     hourCircle.rotate(i, WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
+            //     hourCircle.drawCircle(40 - j, 0, 360);
+            // }
         }
         else
         {
             glColor4f(COLOR_BLACK);
-            hourCircle.drawCircle(10, 0, 360);
+            hourCircle.drawCircle(5, 0, 360);
         }
     }
 
     // Hour text
-    glColor4f(COLOR_WHITE);
+    glColor4f(COLOR_RED_DARK);
     textHour.translate(-401, -239);
     textHour.scale(0.50);
     textHour.drawText("8", 10);
+    glColor4f(COLOR_WHITE);
+    textHour.scale(0.50);
+    textHour.drawText("8", 7);
 }
 #pragma endregion Group Hour
 
@@ -328,13 +380,15 @@ Object textDay = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderDateDay()
 {
     // Draw day box
-    dayBox.translate(COMPLICATION_RING_RADIUS, -20);
     glColor4f(COLOR_RED);
+    dayBox.translate(COMPLICATION_RING_RADIUS, -20);
     dayBox.drawRoundedRectFill(DAY_BOX_WIDTH, DAY_BOX_HEIGHT, DAY_BOX_CORNER_RADIUS);
 
     // Draw date box
-    glColor4f(COLOR_GREEN);
+    glColor4f(COLOR_GREEN_DARK);
     dateBox.translate(COMPLICATION_RING_RADIUS, 20);
+    dateBox.drawRoundedRectFill(DATE_BOX_WIDTH + 10, DATE_BOX_HEIGHT + 10, DATE_BOX_CORNER_RADIUS + 5);
+    glColor4f(COLOR_GREEN);
     dateBox.drawRoundedRectFill(DATE_BOX_WIDTH, DATE_BOX_HEIGHT, DATE_BOX_CORNER_RADIUS);
 
     // Draw date text
@@ -344,6 +398,7 @@ void renderDateDay()
     textDate.drawText("12|Feb", 4);
 
     // Draw day text
+    glColor4f(COLOR_WHITE);
     textDay.translate(COMPLICATION_RING_RADIUS - 25, -40);
     textDay.scale(0.15);
     textDay.drawText("Thu", 3);
@@ -361,11 +416,14 @@ void renderHeart()
     iconHeart.translate(-90, COMPLICATION_RING_RADIUS);
     iconHeart.drawHeart(20);
 
-    // Haert rate text
-    glColor4f(COLOR_GREY);
+    // Heart rate text
     textHeartRate.translate(-50, COMPLICATION_RING_RADIUS - 10);
+    glColor4f(COLOR_WHITE);
     textHeartRate.scale(0.25);
-    textHeartRate.drawText("76bpm", 4);
+    textHeartRate.drawText("76bpm", 8);
+    glColor4f(COLOR_GREY);
+    textHeartRate.scale(0.25);
+    textHeartRate.drawText("76bpm", 5);
 }
 #pragma endregion Group Heart
 
@@ -377,6 +435,10 @@ void renderBattery()
 {
     // Battery text
     textBattery.translate(-10, -COMPLICATION_RING_RADIUS - 15);
+    glColor4f(COLOR_GREY);
+    textBattery.scale(0.25);
+    textBattery.drawText("60%", 8);
+    glColor4f(COLOR_RED);
     textBattery.scale(0.25);
     textBattery.drawText("60%", 4);
 
@@ -394,16 +456,22 @@ Object textStepUnit = Object(WINDOWS_CENTER_X, WINDOWS_CENTER_Y);
 void renderStep()
 {
     // Step count text
-    glColor4f(COLOR_GREY);
     textStepCount.translate(-COMPLICATION_RING_RADIUS - 50, 0);
+    glColor4f(COLOR_WHITE);
     textStepCount.scale(0.35);
-    textStepCount.drawText("4896", 6);
+    textStepCount.drawText("4896", 8);
+    glColor4f(COLOR_GREY);
+    textStepCount.scale(0.35);
+    textStepCount.drawText("4896", 5);
 
     // Step unit text
-    glColor4f(COLOR_RED);
+    glColor4f(COLOR_GREY);
     textStepUnit.translate(-COMPLICATION_RING_RADIUS - 4, -28);
     textStepUnit.scale(0.15);
-    textStepUnit.drawText("Step", 3);
+    textStepUnit.drawText("Step", 8);
+    glColor4f(COLOR_RED);
+    textStepUnit.scale(0.15);
+    textStepUnit.drawText("Step", 4);
 }
 #pragma endregion Group Step
 
