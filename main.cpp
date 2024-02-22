@@ -12,6 +12,7 @@ int main()
 
 	// Finish the program
 	glutMainLoop();
+
 	system("PAUSE");
 	return 0;
 }

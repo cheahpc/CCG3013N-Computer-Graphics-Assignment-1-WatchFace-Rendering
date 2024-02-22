@@ -32,6 +32,7 @@ void init()
     glutInitWindowSize(WINDOWS_WIDTH, WINDOWS_HEIGHT);            // Set the windows size.
     glutInitWindowPosition(WINDOWS_INIT_X, WINDOWS_INIT_Y);       // Set the windows position.
     glutCreateWindow("Watermelonish Watchface v1.0 by @cheahPC"); // Set the windows title.
+    glutFullScreen();                                             // Set the windows to full screen.
 
     // Initialize the rendering context
     glClearColor(COLOR_GREEN_LIGHT);                   // Set the background color to white, any area not rendered will be white.
